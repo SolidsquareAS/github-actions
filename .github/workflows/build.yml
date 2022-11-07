@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: get epository name
+        run: echo "REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
@@ -20,6 +22,6 @@ jobs:
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 600
       - name: Build container image
-        run: docker build . -t ${{ secrets.DO_DOCKER_REGISTRY }}/$GITHUB_REPOSITORY:latest
+        run: docker build . -t ${{ secrets.DO_DOCKER_REGISTRY }}/${{ env.REPOSITORY_NAME }}:latest
       - name: Push image to Digital Ocean
-        run: docker push ${{ secrets.DO_DOCKER_REGISTRY }}/$GITHUB_REPOSITORY:latest
+        run: docker push ${{ secrets.DO_DOCKER_REGISTRY }}/${{ env.REPOSITORY_NAME }}:latest
