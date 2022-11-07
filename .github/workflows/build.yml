@@ -1,0 +1,23 @@
+name: Create and Publish Docker Image
+
+on:
+  workflow_call:
+    secrets:
+      DO_DOCKER_REGISTRY:
+        required: true
+      DIGITALOCEAN_ACCESS_TOKEN:
+        required: true
+
+jobs:
+  build:
+    - uses: actions/checkout@v3
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      run: doctl registry login --expiry-seconds 600
+    - name: Build container image
+      run: docker build . -t ${{ secrets.DO_DOCKER_REGISTRY }}/$GITHUB_REPOSITORY:latest
+    - name: Push image to Digital Ocean
+      run: docker push ${{ secrets.DO_DOCKER_REGISTRY }}/$GITHUB_REPOSITORY:latest
