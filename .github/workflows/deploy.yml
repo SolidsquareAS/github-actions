@@ -5,6 +5,8 @@ on:
     secrets:
       DIGITALOCEAN_ACCESS_TOKEN:
         required: true
+      K8S_CLUSTER:
+        required: true
 
 jobs:
   build:
@@ -17,7 +19,7 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 actions-example-k8s-1-18
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - name: Install helm
         uses: azure/setup-helm@v3
       - name: Deploy
