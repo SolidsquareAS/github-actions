@@ -1,0 +1,11 @@
+name: Echo file
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get repository name
+        run: cat /index.html
