@@ -8,6 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Retrieve helm-template
+        uses: actions/checkout@v3
+        with:
+          repository: SolidsquareAS/helm-templates
+          ref: master
       - name: print directory
         run: ls
       - name: print file
