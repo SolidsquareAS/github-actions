@@ -1,4 +1,4 @@
-name: Create and Publish Docker Image
+name: Build and send the image to a Digital Ocean Container Registry
 
 on:
   workflow_call:

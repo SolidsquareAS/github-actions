@@ -1,5 +1,4 @@
-name: Create and Publish Docker Image
-
+name: Deploys the helm-chart from provided values
 on:
   workflow_call:
     secrets:
@@ -9,9 +8,16 @@ on:
         required: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Retrieve helm-template
+        uses: actions/checkout@v3
+        with:
+          repository: SolidsquareAS/helm-templates
+          token: ${{ secrets.GH_PAT }}
+          ref: master
+          path: helm-templates
       - name: get repository name
         run: echo "REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
       - name: Install doctl
