@@ -29,4 +29,4 @@ jobs:
       - name: Install helm
         uses: azure/setup-helm@v3
       - name: Deploy
-        run: helm upgrade ${{ env.REPOSITORY_NAME }} ./helm --dry-run
+        run: helm upgrade ${{ env.REPOSITORY_NAME }} ./helm-template/helm --dry-run
