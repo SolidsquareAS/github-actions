@@ -11,13 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Retrieve helm-template
+        with:
+          path: source
+      - name: Retrieve helm-templates
         uses: actions/checkout@v3
         with:
           repository: SolidsquareAS/helm-templates
           token: ${{ secrets.GH_PAT }}
           ref: master
+          path: helm-templates
       - name: print directory
         run: ls
-      - name: print file
-        run: cat ./index.html
+      - name: print directory
+        run: ls ./helm-templates
