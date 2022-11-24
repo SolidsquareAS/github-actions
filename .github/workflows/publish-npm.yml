@@ -1,0 +1,21 @@
+name: Build and publish to Github Package
+on:
+  workflow_call:
+    secrets:
+      DO_DOCKER_REGISTRY:
+        required: true
+      DIGITALOCEAN_ACCESS_TOKEN:
+        required: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: "https://npm.pkg.github.com"
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
